@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        .ticket {
+            text-align: left;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Ticket Simplificado</h2>
+        <div class="ticket" id="ticket">
+            <p><strong>Fecha:</strong> 10/03/2025 13:21:09 PM</p>
+            <p><strong>Teléfono:</strong> 7731061057</p>
+            <p><strong>Cuenta:</strong> 97432759</p>
+            <p><strong>Nombre:</strong> TAN*** MAR*** MAR***</p>
+            <p><strong>Monto Pagado:</strong> $279.00</p>
+            <p><strong>Concepto:</strong> Pago de Servicio Celular</p>
+            <p><strong>No. Transacción:</strong> 061323</p>
+            <p><strong>No. Folio:</strong> 13212384</p>
+            <p><strong>Resultado:</strong> Transacción Exitosa</p>
+            <p><strong>Forma de Pago:</strong> Efectivo</p>
+        </div>
+        <button onclick="imprimirTicket()">Imprimir Ticket</button>
+    </div>
+
+    <script>
+        function imprimirTicket() {
+            var contenido = document.getElementById('ticket').innerHTML;
+            var ventana = window.open('', '', 'width=600,height=400');
+            ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+            ventana.document.write(contenido);
+            ventana.document.write('</body></html>');
+            ventana.document.close();
+            ventana.print();
+        }
+    </script>
+</body>
+</html>
