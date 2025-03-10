@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Tickets</title>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,26 +75,47 @@
     </div>
 
     <script>
-        function procesarPDF() {
+        async function procesarPDF() {
             const fileInput = document.getElementById('pdfInput').files[0];
             if (!fileInput) {
                 alert("Por favor, selecciona un archivo PDF.");
                 return;
             }
-            // Simulación de extracción de datos
-            document.getElementById("fecha").innerText = "10/03/2025 13:21:09 PM";
-            document.getElementById("telefono").innerText = "7731061057";
-            document.getElementById("cuenta").innerText = "97432759";
-            document.getElementById("nombre").innerText = "TAN*** MAR*** MAR***";
-            document.getElementById("monto").innerText = "$279.00";
-            document.getElementById("concepto").innerText = "Pago de Servicio Celular";
-            document.getElementById("transaccion").innerText = "061323";
-            document.getElementById("folio").innerText = "13212384";
-            document.getElementById("resultado").innerText = "Transacción Exitosa";
-            document.getElementById("formaPago").innerText = "Efectivo";
+            
+            const reader = new FileReader();
+            reader.onload = async function () {
+                const typedArray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedArray).promise;
+                let text = "";
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    text += content.items.map(item => item.str).join(" ") + " ";
+                }
+                
+                // Extraer datos
+                document.getElementById("fecha").innerText = extraerDato(text, "FECHA:", "TELÉFONO:");
+                document.getElementById("telefono").innerText = extraerDato(text, "TELÉFONO:", "CUENTA:");
+                document.getElementById("cuenta").innerText = extraerDato(text, "CUENTA:", "NOMBRE:");
+                document.getElementById("nombre").innerText = extraerDato(text, "NOMBRE:", "MONTO PAGADO:");
+                document.getElementById("monto").innerText = extraerDato(text, "MONTO PAGADO:", "CONCEPTO:");
+                document.getElementById("concepto").innerText = extraerDato(text, "CONCEPTO:", "NO. TRANSACCIÓN:");
+                document.getElementById("transaccion").innerText = extraerDato(text, "NO. TRANSACCIÓN:", "NO. FOLIO:");
+                document.getElementById("folio").innerText = extraerDato(text, "NO. FOLIO:", "RESULTADO:");
+                document.getElementById("resultado").innerText = extraerDato(text, "RESULTADO:", "FORMA DE PAGO:");
+                document.getElementById("formaPago").innerText = extraerDato(text, "FORMA DE PAGO:", "AAA AAA");
+                
+                document.getElementById("ticket").style.display = "block";
+                document.getElementById("imprimirBtn").style.display = "block";
+            };
+            reader.readAsArrayBuffer(fileInput);
+        }
 
-            document.getElementById("ticket").style.display = "block";
-            document.getElementById("imprimirBtn").style.display = "block";
+        function extraerDato(text, inicio, fin) {
+            let regex = new RegExp(`${inicio} (.*?) ${fin}`, "i");
+            let match = text.match(regex);
+            return match ? match[1] : "No encontrado";
         }
 
         function imprimirTicket() {
