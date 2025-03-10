@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             text-align: center;
             background-color: #e3f2fd;
             padding: 20px;
@@ -17,7 +17,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
+            max-width: 450px;
             margin: auto;
         }
         h2 {
@@ -31,10 +31,6 @@
             border-radius: 5px;
             background: #f9f9f9;
             display: none;
-        }
-        .logo {
-            width: 100px;
-            margin-bottom: 10px;
         }
         button {
             background-color: #007bff;
@@ -50,7 +46,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        select {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -62,16 +58,6 @@
 <body>
     <div class="container">
         <h2>Generador de Tickets</h2>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Telcel_Logo.svg/1200px-Telcel_Logo.svg.png" class="logo" alt="Telcel Logo">
-        <label for="vendedor">Seleccione el Vendedor:</label>
-        <select id="vendedor">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-        </select>
         <input type="file" id="pdfInput" accept="application/pdf">
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
@@ -84,7 +70,16 @@
             <p><strong>No. Transacción:</strong> <span id="transaccion"></span></p>
             <p><strong>No. Folio:</strong> <span id="folio"></span></p>
             <p><strong>Resultado:</strong> <span id="resultado"></span></p>
-            <p><strong>Vendedor:</strong> <span id="vendedorSeleccionado"></span></p>
+            <p><strong>Vendedor:</strong> 
+                <select id="vendedor">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                </select>
+            </p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
     </div>
@@ -123,24 +118,11 @@
                 document.getElementById("transaccion").innerText = extraerDato(text, "NO. TRANSACCIÓN:", "NO. FOLIO:");
                 document.getElementById("folio").innerText = extraerDato(text, "NO. FOLIO:", "RESULTADO:");
                 document.getElementById("resultado").innerText = extraerDato(text, "RESULTADO:", "FORMA DE PAGO:");
-                document.getElementById("vendedorSeleccionado").innerText = document.getElementById("vendedor").value;
                 
                 document.getElementById("ticket").style.display = "block";
                 document.getElementById("imprimirBtn").style.display = "block";
             };
             reader.readAsArrayBuffer(fileInput);
-        }
-
-        function extraerDato(text, inicio, fin) {
-            let regex = new RegExp(`${inicio}\s*(.*?)\s*${fin}`, "i");
-            let match = text.match(regex);
-            return match ? match[1] : "No encontrado";
-        }
-
-        function extraerNombre(text) {
-            let regex = /NOMBRE:\s*([A-Z\*]+)\s*([A-Z\*]+)\s*([A-Z\*]+)/;
-            let match = text.match(regex);
-            return match ? `${match[1]} ${match[2]} ${match[3]}` : "No encontrado";
         }
     </script>
 </body>
