@@ -46,7 +46,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        input, select {
+        input {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -70,16 +70,6 @@
             <p><strong>No. Transacción:</strong> <span id="transaccion"></span></p>
             <p><strong>No. Folio:</strong> <span id="folio"></span></p>
             <p><strong>Resultado:</strong> <span id="resultado"></span></p>
-            <p><strong>Vendedor:</strong> 
-                <select id="vendedor">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                </select>
-            </p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
     </div>
@@ -123,6 +113,28 @@
                 document.getElementById("imprimirBtn").style.display = "block";
             };
             reader.readAsArrayBuffer(fileInput);
+        }
+
+        function extraerDato(text, inicio, fin) {
+            let regex = new RegExp(`${inicio}\s*(.*?)\s*${fin}`, "i");
+            let match = text.match(regex);
+            return match ? match[1] : "No encontrado";
+        }
+
+        function extraerNombre(text) {
+            let regex = /NOMBRE:\s*([A-Z\*]+)\s*([A-Z\*]+)\s*([A-Z\*]+)/;
+            let match = text.match(regex);
+            return match ? `${match[1]} ${match[2]} ${match[3]}` : "No encontrado";
+        }
+
+        function imprimirTicket() {
+            var contenido = document.getElementById('ticket').innerHTML;
+            var ventana = window.open('', '', 'width=600,height=400');
+            ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+            ventana.document.write(contenido);
+            ventana.document.write('</body></html>');
+            ventana.document.close();
+            ventana.print();
         }
     </script>
 </body>
