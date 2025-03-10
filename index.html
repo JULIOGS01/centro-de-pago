@@ -8,54 +8,94 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
+            background-color: #e3f2fd;
             padding: 20px;
         }
         .container {
             background: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
             margin: auto;
+        }
+        h2 {
+            color: #007bff;
         }
         .ticket {
             text-align: left;
-            font-size: 14px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background: #f9f9f9;
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             margin-top: 10px;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
         }
         button:hover {
             background-color: #0056b3;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Ticket Simplificado</h2>
-        <div class="ticket" id="ticket">
-            <p><strong>Fecha:</strong> 10/03/2025 13:21:09 PM</p>
-            <p><strong>Teléfono:</strong> 7731061057</p>
-            <p><strong>Cuenta:</strong> 97432759</p>
-            <p><strong>Nombre:</strong> TAN*** MAR*** MAR***</p>
-            <p><strong>Monto Pagado:</strong> $279.00</p>
-            <p><strong>Concepto:</strong> Pago de Servicio Celular</p>
-            <p><strong>No. Transacción:</strong> 061323</p>
-            <p><strong>No. Folio:</strong> 13212384</p>
-            <p><strong>Resultado:</strong> Transacción Exitosa</p>
-            <p><strong>Forma de Pago:</strong> Efectivo</p>
+        <h2>Generador de Tickets</h2>
+        <input type="file" id="pdfInput" accept="application/pdf">
+        <button onclick="procesarPDF()">Subir y Generar Ticket</button>
+        <div class="ticket" id="ticket" style="display:none;">
+            <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+            <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
+            <p><strong>Cuenta:</strong> <span id="cuenta"></span></p>
+            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+            <p><strong>Monto Pagado:</strong> <span id="monto"></span></p>
+            <p><strong>Concepto:</strong> <span id="concepto"></span></p>
+            <p><strong>No. Transacción:</strong> <span id="transaccion"></span></p>
+            <p><strong>No. Folio:</strong> <span id="folio"></span></p>
+            <p><strong>Resultado:</strong> <span id="resultado"></span></p>
+            <p><strong>Forma de Pago:</strong> <span id="formaPago"></span></p>
         </div>
-        <button onclick="imprimirTicket()">Imprimir Ticket</button>
+        <button onclick="imprimirTicket()" style="display:none;" id="imprimirBtn">Imprimir Ticket</button>
     </div>
 
     <script>
+        function procesarPDF() {
+            const fileInput = document.getElementById('pdfInput').files[0];
+            if (!fileInput) {
+                alert("Por favor, selecciona un archivo PDF.");
+                return;
+            }
+            // Simulación de extracción de datos
+            document.getElementById("fecha").innerText = "10/03/2025 13:21:09 PM";
+            document.getElementById("telefono").innerText = "7731061057";
+            document.getElementById("cuenta").innerText = "97432759";
+            document.getElementById("nombre").innerText = "TAN*** MAR*** MAR***";
+            document.getElementById("monto").innerText = "$279.00";
+            document.getElementById("concepto").innerText = "Pago de Servicio Celular";
+            document.getElementById("transaccion").innerText = "061323";
+            document.getElementById("folio").innerText = "13212384";
+            document.getElementById("resultado").innerText = "Transacción Exitosa";
+            document.getElementById("formaPago").innerText = "Efectivo";
+
+            document.getElementById("ticket").style.display = "block";
+            document.getElementById("imprimirBtn").style.display = "block";
+        }
+
         function imprimirTicket() {
             var contenido = document.getElementById('ticket').innerHTML;
             var ventana = window.open('', '', 'width=600,height=400');
