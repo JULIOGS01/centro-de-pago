@@ -166,29 +166,20 @@
 
         function imprimirTicket() {
             const ticket = document.getElementById('ticket');
-            const logo = document.getElementById('telcelLogo');
 
-            // Convertir la imagen a un data URL
-            const logoDataUrl = logo.src;
-
-            // Crear un nuevo elemento de imagen para el ticket
-            const img = new Image();
-            img.src = logoDataUrl;
-
-            img.onload = function() {
-                // Esperar a que la imagen se cargue
-                html2canvas(ticket).then(function(canvas) {
-                    var ventana = window.open('', '', 'width=300,height=400');
-                    ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
-                    ventana.document.body.appendChild(canvas);
-                    ventana.document.write('</body></html>');
-                    ventana.document.close();
-                    ventana.print();
-                }).catch(function(error) {
-                    console.error("Error al capturar el ticket:", error);
-                    alert("Ocurrió un error al intentar imprimir el ticket.");
-                });
-            };
+            // Capturar el ticket como imagen
+            html2canvas(ticket).then(function(canvas) {
+                const imgData = canvas.toDataURL('image/png');
+                const ventana = window.open('', '', 'width=300,height=400');
+                ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+                ventana.document.write('<img src="' + imgData + '" style="width:100%;"/>');
+                ventana.document.write('</body></html>');
+                ventana.document.close();
+                ventana.print();
+            }).catch(function(error) {
+                console.error("Error al capturar el ticket:", error);
+                alert("Ocurrió un error al intentar imprimir el ticket.");
+            });
         }
     </script>
 </body>
