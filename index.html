@@ -25,12 +25,27 @@
         }
         .ticket {
             text-align: left;
-            font-size: 16px;
+            font-size: 14px;
             border: 1px solid #ddd;
             padding: 15px;
             border-radius: 5px;
             background: #f9f9f9;
             display: none;
+            width: 100%;
+            max-width: 300px; /* Ajustar el ancho para tickets de 80 mm */
+            margin: auto;
+            position: relative;
+        }
+        .ticket img {
+            width: 100%;
+            max-width: 100px; /* Ajustar el tamaño del logo */
+            margin: 0 auto;
+            display: block;
+        }
+        .ticket hr {
+            border: 0;
+            border-top: 1px dashed #007bff;
+            margin: 10px 0;
         }
         button {
             background-color: #007bff;
@@ -72,6 +87,8 @@
         
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Telcel_logo.svg/2560px-Telcel_logo.svg.png" alt="Logo Telcel">
+            <hr>
             <p><strong>Fecha:</strong> <span id="fecha"></span></p>
             <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
             <p><strong>Cuenta:</strong> <span id="cuenta"></span></p>
@@ -82,6 +99,8 @@
             <p><strong>No. Folio:</strong> <span id="folio"></span></p>
             <p><strong>Resultado:</strong> <span id="resultado"></span></p>
             <p><strong>Vendedor:</strong> <span id="vendedorSeleccionado"></span></p>
+            <hr>
+            <p style="text-align: center; font-size: 12px;">Gracias por tu compra!</p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
     </div>
@@ -145,7 +164,7 @@
 
         function imprimirTicket() {
             var contenido = document.getElementById('ticket').innerHTML;
-            var ventana = window.open('', '', 'width=600,height=400');
+            var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
             ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
             ventana.document.write(contenido);
             ventana.document.write('</body></html>');
