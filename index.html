@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Tickets</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             background-color: #e3f2fd;
             padding: 20px;
@@ -28,7 +28,7 @@
         .ticket {
             text-align: left;
             font-size: 12px; /* Tamaño de fuente reducido */
-            border: 1px solid #ddd;
+            border: 1px solid #007bff;
             padding: 10px; /* Espaciado reducido */
             border-radius: 5px;
             background: white; /* Cambiar a blanco para impresión */
@@ -69,6 +69,21 @@
             margin-top: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+        }
+
+        /* Estilos para impresión */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .ticket, .ticket * {
+                visibility: visible;
+            }
+            .ticket {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
         }
     </style>
 </head>
@@ -170,7 +185,7 @@
             var contenido = document.getElementById('ticket').innerHTML;
             var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
             ventana.document.write('<html><head><title>Impresión de Ticket</title>');
-            ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">');
+            ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">');
             ventana.document.write('</head><body style="background: white;">'); // Fondo blanco para impresión
             ventana.document.write(contenido);
             ventana.document.write('</body></html>');
