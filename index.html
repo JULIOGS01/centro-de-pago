@@ -182,7 +182,7 @@
             var contenido = document.getElementById('ticket').innerHTML;
             var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
             ventana.document.write('<html><head><title>Impresión de Ticket</title>');
-            ventana.document.write('<style>body { font-family: Arial, sans-serif; background: white; }</style>');
+            ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">');
             ventana.document.write('</head><body style="background: white;">'); // Fondo blanco para impresión
             ventana.document.write(contenido);
             ventana.document.write('</body></html>');
