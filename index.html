@@ -6,6 +6,7 @@
     <title>Generador de Tickets</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -33,7 +34,7 @@
             background: #f9f9f9;
             display: none;
             width: 100%;
-            max-width: 250px; /* Ajustar el ancho para tickets de 80 mm */
+            max-width: 280px; /* Ajustar el ancho para tickets de 80 mm */
             margin: auto;
             position: relative;
         }
@@ -104,6 +105,7 @@
             <p style="text-align: center; font-size: 12px;">Gracias por tu compra!</p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
+        <button onclick="descargarTicket()" id="descargarBtn" style="display:none;">Descargar Ticket</button>
     </div>
 
     <script>
@@ -147,6 +149,7 @@
 
                 document.getElementById("ticket").style.display = "block";
                 document.getElementById("imprimirBtn").style.display = "block";
+                document.getElementById("descargarBtn").style.display = "block"; // Mostrar botón de descarga
             };
             reader.readAsArrayBuffer(fileInput);
         }
@@ -165,7 +168,7 @@
 
         function imprimirTicket() {
             var contenido = document.getElementById('ticket').innerHTML;
-            var ventana = window.open('', '', 'width=250,height=400'); // Ajustar el tamaño de la ventana
+            var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
             ventana.document.write('<html><head><title>Impresión de Ticket</title>');
             ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">');
             ventana.document.write('</head><body>');
@@ -173,6 +176,20 @@
             ventana.document.write('</body></html>');
             ventana.document.close();
             ventana.print();
+        }
+
+        function descargarTicket() {
+            html2canvas(document.getElementById('ticket')).then(function(canvas) {
+                // Convertir el canvas a una imagen
+                const imgData = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = imgData;
+                link.download = 'ticket.png'; // Nombre del archivo a descargar
+                link.click();
+            }).catch(function(error) {
+                console.error("Error al capturar el ticket:", error);
+                alert("Ocurrió un error al intentar descargar el ticket.");
+            });
         }
     </script>
 </body>
