@@ -6,8 +6,8 @@
     <title>Generador de Tickets</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -28,13 +28,13 @@
         }
         .ticket {
             text-align: left;
-            font-size: 24px; /* Tamaño de fuente reducido */
-            padding: 20px; /* Espaciado reducido */
-            border-radius: 10px;
+            font-size: 12px; /* Tamaño de fuente reducido */
+            padding: 10px; /* Espaciado reducido */
+            border-radius: 5px;
             background: white; /* Cambiar a blanco para impresión */
             display: none;
             width: 100%;
-            max-width: 500px; /* Ajustar el ancho para tickets de 80 mm */
+            max-width: 280px; /* Ajustar el ancho para tickets de 80 mm */
             margin: auto;
             position: relative;
         }
@@ -198,20 +198,28 @@
             const doc = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
-                format: [160, 400], // Ancho de 80mm y alto de 200mm
+                format: [80, 200], // Ancho de 80mm y alto de 200mm
                 putOnlyUsedFonts: true,
                 floatPrecision: 16 // Para mayor precisión
             });
 
-            // Capturar el ticket como imagen
-            html2canvas(document.getElementById('ticket'), { scale: 2 }).then(canvas => { // Aumentar la escala para mejor calidad
-                const imgData = canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 0, 0, 80, (canvas.height * 80) / canvas.width); // Ajustar la imagen al ancho de 80mm
-                doc.save('ticket.pdf'); // Descargar el PDF
-            }).catch(function(error) {
-                console.error("Error al capturar el ticket:", error);
-                alert("Ocurrió un error al intentar descargar el ticket.");
-            });
+            // Agregar contenido directamente al PDF
+            doc.setFont("Poppins", "normal");
+            doc.setFontSize(12);
+            doc.text("Fecha: " + document.getElementById("fecha").innerText, 10, 20);
+            doc.text("Teléfono: " + document.getElementById("telefono").innerText, 10, 30);
+            doc.text("Cuenta: " + document.getElementById("cuenta").innerText, 10, 40);
+            doc.text("Nombre: " + document.getElementById("nombre").innerText, 10, 50);
+            doc.text("Monto Pagado: " + document.getElementById("monto").innerText, 10, 60);
+            doc.text("Concepto: " + document.getElementById("concepto").innerText, 10, 70);
+            doc.text("No. Transacción: " + document.getElementById("transaccion").innerText, 10, 80);
+            doc.text("No. Folio: " + document.getElementById("folio").innerText, 10, 90);
+            doc.text("Resultado: " + document.getElementById("resultado").innerText, 10, 100);
+            doc.text("Vendedor: " + document.getElementById("vendedorSeleccionado").innerText, 10, 110);
+            doc.text("Gracias por tu compra!", 10, 130);
+
+            // Guardar el PDF
+            doc.save('ticket.pdf');
         }
     </script>
 </body>
