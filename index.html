@@ -28,13 +28,13 @@
         }
         .ticket {
             text-align: left;
-            font-size: 12px; /* Tamaño de fuente reducido */
-            padding: 10px; /* Espaciado reducido */
-            border-radius: 5px;
+            font-size: 24px; /* Tamaño de fuente reducido */
+            padding: 20px; /* Espaciado reducido */
+            border-radius: 10px;
             background: white; /* Cambiar a blanco para impresión */
             display: none;
             width: 100%;
-            max-width: 280px; /* Ajustar el ancho para tickets de 80 mm */
+            max-width: 500px; /* Ajustar el ancho para tickets de 80 mm */
             margin: auto;
             position: relative;
         }
@@ -198,7 +198,7 @@
             const doc = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
-                format: [80, 200], // Ancho de 80mm y alto de 200mm
+                format: [160, 400], // Ancho de 80mm y alto de 200mm
                 putOnlyUsedFonts: true,
                 floatPrecision: 16 // Para mayor precisión
             });
