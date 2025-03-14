@@ -165,11 +165,18 @@
         }
 
         function imprimirTicket() {
-            const logo = document.getElementById('telcelLogo');
             const ticket = document.getElementById('ticket');
+            const logo = document.getElementById('telcelLogo');
 
-            // Asegurarse de que la imagen esté completamente cargada
-            if (logo.complete) {
+            // Convertir la imagen a un data URL
+            const logoDataUrl = logo.src;
+
+            // Crear un nuevo elemento de imagen para el ticket
+            const img = new Image();
+            img.src = logoDataUrl;
+
+            img.onload = function() {
+                // Esperar a que la imagen se cargue
                 html2canvas(ticket).then(function(canvas) {
                     var ventana = window.open('', '', 'width=300,height=400');
                     ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
@@ -181,18 +188,7 @@
                     console.error("Error al capturar el ticket:", error);
                     alert("Ocurrió un error al intentar imprimir el ticket.");
                 });
-            } else {
-                logo.onload = function() {
-                    html2canvas(ticket).then(function(canvas) {
-                        var ventana = window.open('', '', 'width=300,height=400');
-                        ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
-                        ventana.document.body.appendChild(canvas);
-                        ventana.document.write('</body></html>');
-                        ventana.document.close();
-                        ventana.print();
-                    });
-                };
-            }
+            };
         }
     </script>
 </body>
