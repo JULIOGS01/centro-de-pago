@@ -6,6 +6,7 @@
     <title>Generador de Tickets</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -164,13 +165,14 @@
         }
 
         function imprimirTicket() {
-            var contenido = document.getElementById('ticket').innerHTML;
-            var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
-            ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
-            ventana.document.write(contenido);
-            ventana.document.write('</body></html>');
-            ventana.document.close();
-            ventana.print();
+            html2canvas(document.getElementById('ticket')).then(function(canvas) {
+                var ventana = window.open('', '', 'width=300,height=400');
+                ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+                ventana.document.body.appendChild(canvas);
+                ventana.document.write('</body></html>');
+                ventana.document.close();
+                ventana.print();
+            });
         }
     </script>
 </body>
