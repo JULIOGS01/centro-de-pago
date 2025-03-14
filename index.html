@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Tickets</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
             text-align: center;
             background-color: #e3f2fd;
             padding: 20px;
@@ -89,7 +87,7 @@
         
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
-            <img id="telcelLogo" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg" alt="Logo Telcel">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg"Logo Telcel">
             <hr>
             <p><strong>Fecha:</strong> <span id="fecha"></span></p>
             <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
@@ -165,21 +163,13 @@
         }
 
         function imprimirTicket() {
-            const ticket = document.getElementById('ticket');
-
-            // Capturar el ticket como imagen
-            html2canvas(ticket).then(function(canvas) {
-                const imgData = canvas.toDataURL('image/png');
-                const ventana = window.open('', '', 'width=300,height=400');
-                ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
-                ventana.document.write('<img src="' + imgData + '" style="width:100%;"/>');
-                ventana.document.write('</body></html>');
-                ventana.document.close();
-                ventana.print();
-            }).catch(function(error) {
-                console.error("Error al capturar el ticket:", error);
-                alert("Ocurrió un error al intentar imprimir el ticket.");
-            });
+            var contenido = document.getElementById('ticket').innerHTML;
+            var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
+            ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+            ventana.document.write(contenido);
+            ventana.document.write('</body></html>');
+            ventana.document.close();
+            ventana.print();
         }
     </script>
 </body>
