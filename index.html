@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -120,7 +119,6 @@
             <p style="text-align: center; font-size: 12px;">Gracias por tu compra!</p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
-        <button onclick="descargarTicketPDF()" id="descargarBtn" style="display:none;">Descargar Ticket como PDF</button>
     </div>
 
     <script>
@@ -163,8 +161,7 @@
                 document.getElementById("vendedorSeleccionado").innerText = vendedorSeleccionado;
 
                 document.getElementById("ticket").style.display = "block";
-                document.getElementById("imprimirBtn").style.display = "block";
-                document.getElementById("descargarBtn").style.display = "block"; // Mostrar botón de descarga
+                document.getElementById("imprimirBtn").style.display = "block"; // Mostrar botón de impresión
             };
             reader.readAsArrayBuffer(fileInput);
         }
@@ -191,27 +188,6 @@
             ventana.document.write('</body></html>');
             ventana.document.close();
             ventana.print();
-        }
-
-        function descargarTicketPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: [80, 200], // Ancho de 80mm y alto de 200mm
-                putOnlyUsedFonts: true,
-                floatPrecision: 16 // Para mayor precisión
-            });
-
-            // Capturar el ticket como imagen
-            html2canvas(document.getElementById('ticket'), { scale: 2 }).then(canvas => { // Aumentar la escala para mejor calidad
-                const imgData = canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 0, 0, 80, (canvas.height * 80) / canvas.width); // Ajustar la imagen al ancho de 80mm
-                doc.save('ticket.pdf'); // Descargar el PDF
-            }).catch(function(error) {
-                console.error("Error al capturar el ticket:", error);
-                alert("Ocurrió un error al intentar descargar el ticket.");
-            });
         }
     </script>
 </body>
