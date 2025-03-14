@@ -29,7 +29,6 @@
         .ticket {
             text-align: left;
             font-size: 12px; /* Tamaño de fuente reducido */
-            border: 1px solid #007bff;
             padding: 10px; /* Espaciado reducido */
             border-radius: 5px;
             background: white; /* Cambiar a blanco para impresión */
@@ -205,7 +204,7 @@
             });
 
             // Capturar el ticket como imagen
-            html2canvas(document.getElementById('ticket')).then(canvas => {
+            html2canvas(document.getElementById('ticket'), { scale: 2 }).then(canvas => { // Aumentar la escala para mejor calidad
                 const imgData = canvas.toDataURL('image/png');
                 doc.addImage(imgData, 'PNG', 0, 0, 80, (canvas.height * 80) / canvas.width); // Ajustar la imagen al ancho de 80mm
                 doc.save('ticket.pdf'); // Descargar el PDF
