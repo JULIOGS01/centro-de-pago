@@ -31,7 +31,7 @@
             border: 1px solid #ddd;
             padding: 10px; /* Espaciado reducido */
             border-radius: 5px;
-            background: #f9f9f9;
+            background: white; /* Cambiar a blanco para impresión */
             display: none;
             width: 100%;
             max-width: 280px; /* Ajustar el ancho para tickets de 80 mm */
@@ -171,7 +171,7 @@
             var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
             ventana.document.write('<html><head><title>Impresión de Ticket</title>');
             ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">');
-            ventana.document.write('</head><body>');
+            ventana.document.write('</head><body style="background: white;">'); // Fondo blanco para impresión
             ventana.document.write(contenido);
             ventana.document.write('</body></html>');
             ventana.document.close();
