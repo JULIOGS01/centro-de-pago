@@ -46,7 +46,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -59,6 +59,17 @@
     <div class="container">
         <h2>Generador de Tickets</h2>
         <input type="file" id="pdfInput" accept="application/pdf">
+        
+        <label for="sucursal">Selecciona una Sucursal:</label>
+        <select id="sucursal">
+            <option value="A">Sucursal A</option>
+            <option value="B">Sucursal B</option>
+            <option value="C">Sucursal C</option>
+            <option value="D">Sucursal D</option>
+            <option value="E">Sucursal E</option>
+            <option value="F">Sucursal F</option>
+        </select>
+        
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
             <p><strong>Fecha:</strong> <span id="fecha"></span></p>
@@ -70,6 +81,7 @@
             <p><strong>No. Transacción:</strong> <span id="transaccion"></span></p>
             <p><strong>No. Folio:</strong> <span id="folio"></span></p>
             <p><strong>Resultado:</strong> <span id="resultado"></span></p>
+            <p><strong>Sucursal:</strong> <span id="sucursalSeleccionada"></span></p>
         </div>
         <button onclick="imprimirTicket()" id="imprimirBtn" style="display:none;">Imprimir Ticket</button>
     </div>
@@ -109,6 +121,10 @@
                 document.getElementById("folio").innerText = extraerDato(text, "NO. FOLIO:", "RESULTADO:");
                 document.getElementById("resultado").innerText = extraerDato(text, "RESULTADO:", "FORMA DE PAGO:");
                 
+                // Obtener la sucursal seleccionada
+                const sucursalSeleccionada = document.getElementById("sucursal").value;
+                document.getElementById("sucursalSeleccionada").innerText = sucursalSeleccionada;
+
                 document.getElementById("ticket").style.display = "block";
                 document.getElementById("imprimirBtn").style.display = "block";
             };
