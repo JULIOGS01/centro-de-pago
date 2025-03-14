@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Tickets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             text-align: center;
             background-color: #e3f2fd;
             padding: 20px;
@@ -87,7 +88,7 @@
         
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg"Logo Telcel">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg" alt="Logo Telcel">
             <hr>
             <p><strong>Fecha:</strong> <span id="fecha"></span></p>
             <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
@@ -165,7 +166,9 @@
         function imprimirTicket() {
             var contenido = document.getElementById('ticket').innerHTML;
             var ventana = window.open('', '', 'width=300,height=400'); // Ajustar el tamaño de la ventana
-            ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+            ventana.document.write('<html><head><title>Impresión de Ticket</title>');
+            ventana.document.write('<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">');
+            ventana.document.write('</head><body>');
             ventana.document.write(contenido);
             ventana.document.write('</body></html>');
             ventana.document.close();
