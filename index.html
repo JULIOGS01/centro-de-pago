@@ -89,7 +89,7 @@
         
         <button onclick="procesarPDF()">Subir y Generar Ticket</button>
         <div class="ticket" id="ticket">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg" alt="Logo Telcel">
+            <img id="telcelLogo" src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Telcel_logo_2022.svg" alt="Logo Telcel">
             <hr>
             <p><strong>Fecha:</strong> <span id="fecha"></span></p>
             <p><strong>Teléfono:</strong> <span id="telefono"></span></p>
@@ -165,17 +165,34 @@
         }
 
         function imprimirTicket() {
-            html2canvas(document.getElementById('ticket')).then(function(canvas) {
-                var ventana = window.open('', '', 'width=300,height=400');
-                ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
-                ventana.document.body.appendChild(canvas);
-                ventana.document.write('</body></html>');
-                ventana.document.close();
-                ventana.print();
-            }).catch(function(error) {
-                console.error("Error al capturar el ticket:", error);
-                alert("Ocurrió un error al intentar imprimir el ticket.");
-            });
+            const logo = document.getElementById('telcelLogo');
+            const ticket = document.getElementById('ticket');
+
+            // Asegurarse de que la imagen esté completamente cargada
+            if (logo.complete) {
+                html2canvas(ticket).then(function(canvas) {
+                    var ventana = window.open('', '', 'width=300,height=400');
+                    ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+                    ventana.document.body.appendChild(canvas);
+                    ventana.document.write('</body></html>');
+                    ventana.document.close();
+                    ventana.print();
+                }).catch(function(error) {
+                    console.error("Error al capturar el ticket:", error);
+                    alert("Ocurrió un error al intentar imprimir el ticket.");
+                });
+            } else {
+                logo.onload = function() {
+                    html2canvas(ticket).then(function(canvas) {
+                        var ventana = window.open('', '', 'width=300,height=400');
+                        ventana.document.write('<html><head><title>Impresión de Ticket</title></head><body>');
+                        ventana.document.body.appendChild(canvas);
+                        ventana.document.write('</body></html>');
+                        ventana.document.close();
+                        ventana.print();
+                    });
+                };
+            }
         }
     </script>
 </body>
